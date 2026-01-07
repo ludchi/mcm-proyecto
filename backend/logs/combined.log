@@ -1,0 +1,22 @@
+{"level":"info","message":"✅ Conexión SQL Server establecida","timestamp":"2026-01-07T05:58:42.005Z"}
+{"level":"warn","message":"❌ Contraseña incorrecta para admin","timestamp":"2026-01-07T05:58:42.213Z"}
+{"level":"warn","message":"❌ Contraseña incorrecta para admin","timestamp":"2026-01-07T05:58:55.493Z"}
+{"level":"warn","message":"❌ Contraseña incorrecta para admin","timestamp":"2026-01-07T05:58:56.674Z"}
+{"level":"warn","message":"❌ Contraseña incorrecta para admin","timestamp":"2026-01-07T06:04:52.442Z"}
+{"level":"warn","message":"❌ Intento login fallido: usuario Ludwig no existe","timestamp":"2026-01-07T06:05:00.275Z"}
+{"level":"warn","message":"❌ Intento login fallido: usuario admin@mexhi.coffe no existe","timestamp":"2026-01-07T06:06:12.615Z"}
+{"level":"warn","message":"❌ Contraseña incorrecta para admin","timestamp":"2026-01-07T06:08:02.260Z"}
+{"level":"warn","message":"❌ Intento login fallido: usuario Ludwig no existe","timestamp":"2026-01-07T06:08:13.723Z"}
+{"level":"warn","message":"❌ Intento login fallido: usuario Ludwig no existe","timestamp":"2026-01-07T06:08:21.719Z"}
+{"level":"info","message":"✅ Conexión SQL Server establecida","timestamp":"2026-01-07T06:13:12.197Z"}
+{"level":"warn","message":"❌ Intento login fallido: usuario admin@mexhi.coffee no existe","timestamp":"2026-01-07T06:13:12.336Z"}
+{"level":"warn","message":"❌ Intento login fallido: usuario admin@mexhi.coffee no existe","timestamp":"2026-01-07T06:13:12.979Z"}
+{"level":"info","message":"✅ Conexión SQL Server establecida","timestamp":"2026-01-07T06:16:57.855Z"}
+{"level":"warn","message":"❌ Contraseña incorrecta para admin@mexhi.coffee","timestamp":"2026-01-07T06:16:58.083Z"}
+{"level":"warn","message":"❌ Contraseña incorrecta para admin@mexhi.coffee","timestamp":"2026-01-07T06:17:57.911Z"}
+{"level":"info","message":"✅ Conexión SQL Server establecida","timestamp":"2026-01-07T06:22:02.248Z"}
+{"level":"warn","message":"❌ Contraseña incorrecta para admin@mexhi.coffee","timestamp":"2026-01-07T06:22:02.365Z"}
+{"level":"warn","message":"❌ Intento login fallido: usuario admin no existe","timestamp":"2026-01-07T06:25:10.101Z"}
+{"level":"warn","message":"❌ Intento login fallido: usuario admin no existe","timestamp":"2026-01-07T06:25:12.159Z"}
+{"level":"warn","message":"❌ Contraseña incorrecta para admin@mexhi.coffee","timestamp":"2026-01-07T06:26:58.596Z"}
+{"level":"warn","message":"❌ Contraseña incorrecta para admin@mexhi.coffee","timestamp":"2026-01-07T06:27:12.727Z"}

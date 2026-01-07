@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mexhi Coffee Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Pantalla inicio de sesión  -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="login-logo">
+                        <i class="fas fa-coffee"></i>
+                        <h1>Mexhi Coffee Manager</h1>
+                    </div>
+                    <p>Sistema de Gestión de Inventario</p>
+                </div>
+                <form class="login-form" id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label">Usuario o Email</label>
+                        <input type="text" class="form-control" id="loginUsername" placeholder="Ingrese su usuario" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="loginPassword" placeholder="Ingrese su contraseña" required>
+                    </div>
+                    <div class="login-actions">
+                        <button type="submit" class="btn btn--primary btn--full-width">
+                            <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                        </button>
+                    </div>
+                    <div class="login-footer">
+                        <a href="#" class="forgot-password">¿Olvidó su contraseña?</a>
+                    </div>
+                </form>
+            </div>
+            <div class="login-info">
+                <h3>Gestión Integral de Café</h3>
+                <ul>
+                    <li><i class="fas fa-boxes"></i> Control de lotes e inventario</li>
+                    <li><i class="fas fa-tags"></i> Generación de etiquetas</li>
+                    <li><i class="fas fa-chart-bar"></i> Reportes y análisis</li>
+                    <li><i class="fas fa-bell"></i> Alertas inteligentes</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="mainApp" class="hidden">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="logo">
+                    <i class="fas fa-coffee"></i>
+                    <h1>Mexhi Coffee Manager</h1>
+                </div>
+                <div class="header-controls">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Buscar..." id="globalSearch">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="role-selector">
+                        <select id="roleSelector">
+                            <option value="admin">Administrador</option>
+                            <option value="warehouse">Almacenista</option>
+                            <option value="barista">Barista</option>
+                        </select>
+                    </div>
+                    <div class="user-menu">
+                        <div class="user-info">
+                            <i class="fas fa-user"></i>
+                            <span id="currentUserName">Usuario</span>
+                        </div>
+                        <button class="logout-btn" id="logoutBtn" title="Cerrar Sesión">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Salir</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" data-view="dashboard" class="nav-link active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li class="nav-item-lots"><a href="#" data-view="lots" class="nav-link"><i class="fas fa-boxes"></i> Gestión de Lotes</a></li>
+                    <li class="nav-item-labels"><a href="#" data-view="labels" class="nav-link"><i class="fas fa-tags"></i> Etiquetas</a></li>
+                    <li class="nav-item-products"><a href="#" data-view="products" class="nav-link"><i class="fas fa-coffee"></i> Productos</a></li>
+                    <li class="nav-item-alerts"><a href="#" data-view="alerts" class="nav-link"><i class="fas fa-bell"></i> Alertas</a></li>
+                    <li class="nav-item-reports"><a href="#" data-view="reports" class="nav-link"><i class="fas fa-chart-bar"></i> Reportes</a></li>
+                    <li class="nav-item-users"><a href="#" data-view="users" class="nav-link"><i class="fas fa-users"></i> Usuarios</a></li>
+                    <li class="nav-item-logs"><a href="#" data-view="logs" class="nav-link"><i class="fas fa-history"></i> Log de Sesiones</a></li>
+                    <li><a href="#" data-view="manual" class="nav-link"><i class="fas fa-book"></i> Manual de Usuario</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main -->
+        <main class="main-content">
+            <!-- Breadcrumbs -->
+            <div class="breadcrumbs">
+                <span id="breadcrumbText">Dashboard</span>
+            </div>
+
+            <!-- Dashboard View -->
+            <div id="dashboard" class="view active">
+                <div class="dashboard-grid">
+                    <!-- KPI Cards -->
+                    <div class="kpi-cards">
+                        <div class="kpi-card">
+                            <div class="kpi-icon">
+                                <i class="fas fa-boxes"></i>
+                            </div>
+                            <div class="kpi-content">
+                                <h3>24</h3>
+                                <p>Lotes Activos</p>
+                            </div>
+                        </div>
+                        <div class="kpi-card alert-card">
+                            <div class="kpi-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="kpi-content">
+                                <h3>3</h3>
+                                <p>Por Caducar</p>
+                            </div>
+                        </div>
+                        <div class="kpi-card warning-card">
+                            <div class="kpi-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="kpi-content">
+                                <h3>5</h3>
+                                <p>Stock Bajo</p>
+                            </div>
+                        </div>
+                        <div class="kpi-card error-card">
+                            <div class="kpi-icon">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <div class="kpi-content">
+                                <h3>8</h3>
+                                <p>Alertas Activas</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Niveles de Stock por Producto -->
+                    <div class="chart-section">
+                        <h2>Niveles de Stock por Producto</h2>
+                        <div class="chart-container" style="position: relative; height: 300px;">
+                            <canvas id="stockChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Distribución de Alertas -->
+                    <div class="chart-section">
+                        <h2>Distribución de Alertas</h2>
+                        <div class="chart-container" style="position: relative; height: 300px;">
+                            <canvas id="alertsChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Alertas Recientes  -->
+                    <div class="recent-alerts">
+                        <h2>Alertas Recientes</h2>
+                        <div class="alerts-list" id="recentAlertsList">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Lotes Recientes -->
+                    <div class="recent-lots">
+                        <h2>Últimos Lotes Registrados</h2>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Producto</th>
+                                        <th>Origen</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentLotsTable">
+                                    <!-- Populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lotes -->
+            <div id="lots" class="view">
+                <div class="view-header">
+                    <h1>Gestión de Lotes</h1>
+                    <div class="action-group">
+                        <button class="btn btn--outline" id="exportLotsBtn">
+                            <i class="fas fa-download"></i> Exportar CSV
+                        </button>
+                        <button class="btn btn--primary" id="addLotBtn">
+                            <i class="fas fa-plus"></i> Nuevo Lote
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="filters-section">
+                    <div class="filters-row">
+                        <input type="text" placeholder="Buscar por código o producto..." class="search-input" id="lotsSearch">
+                        <select class="filter-select" id="originFilter">
+                            <option value="">Todos los orígenes</option>
+                            <option value="Chiapas">Chiapas</option>
+                            <option value="Veracruz">Veracruz</option>
+                            <option value="México">México</option>
+                            <option value="Oaxaca">Oaxaca</option>
+                            <option value="Colombia">Colombia</option>
+                            <option value="Guatemala">Guatemala</option>
+                        </select>
+                        <select class="filter-select" id="statusFilter">
+                            <option value="">Todos los estados</option>
+                            <option value="Activo">Activo</option>
+                            <option value="Stock Bajo">Stock Bajo</option>
+                            <option value="Por Caducar">Por Caducar</option>
+                        </select>
+                        <button class="btn btn--outline" id="clearFilters">Limpiar Filtros</button>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Producto</th>
+                                <th>Origen</th>
+                                <th>Tueste</th>
+                                <th>Peso Inicial</th>
+                                <th>Peso Actual</th>
+                                <th>Fecha Tueste</th>
+                                <th>Caducidad</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lotsTable">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Etiquetas  -->
+            <div id="labels" class="view">
+                <div class="view-header">
+                    <h1>Configuración de Etiquetas</h1>
+                </div>
+                
+                <div class="labels-grid">
+                    <div class="template-selection">
+                        <h2>Seleccionar Plantilla</h2>
+                        <div class="template-cards" id="templateCards">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div class="label-config">
+                        <h2>Configuración</h2>
+                        <form class="label-form">
+                            <div class="form-group">
+                                <label class="form-label">Producto</label>
+                                <select class="form-control" id="labelProduct">
+                                    <option value="">Seleccionar producto</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Lote</label>
+                                <select class="form-control" id="labelLot">
+                                    <option value="">Seleccionar lote</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Cantidad de Etiquetas</label>
+                                <input type="number" class="form-control" value="10" min="1" max="100">
+                            </div>
+                            <button type="button" class="btn btn--primary btn--full-width" id="generateLabelsBtn">
+                                <i class="fas fa-print"></i> Generar Etiquetas
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="label-preview">
+                        <h2>Vista Previa</h2>
+                        <div class="preview-container" id="labelPreview">
+                            <div class="label-sample">
+                                <div class="label-header">Mexhi Coffee</div>
+                                <div class="label-content">
+                                    <h3>Premium Chiapas</h3>
+                                    <p>Origen: Chiapas</p>
+                                    <p>Tueste: Medio</p>
+                                    <p>Caduca: 15/10/2025</p>
+                                    <div class="qr-placeholder">QR</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="print-queue">
+                        <h2>Cola de Impresión</h2>
+                        <div class="queue-list" id="printQueue">
+                            <div class="queue-item">
+                                <span>Premium Chiapas - 10 etiquetas</span>
+                                <span class="status pending">Pendiente</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Productos -->
+            <div id="products" class="view">
+                <div class="view-header">
+                    <h1>Catálogo de Productos</h1>
+                    <button class="btn btn--primary" id="addProductBtn">
+                        <i class="fas fa-plus"></i> Nuevo Producto
+                    </button>
+                </div>
+
+                <div class="filters-section">
+                    <div class="filters-row">
+                        <select class="filter-select" id="originProductFilter">
+                            <option value="">Todos los orígenes</option>
+                            <option value="Chiapas">Chiapas</option>
+                            <option value="Veracruz">Veracruz</option>
+                            <option value="México">México</option>
+                            <option value="Oaxaca">Oaxaca</option>
+                            <option value="Colombia">Colombia</option>
+                            <option value="Guatemala">Guatemala</option>
+                        </select>
+                        <select class="filter-select" id="statusProductFilter">
+                            <option value="">Todos los estados</option>
+                            <option value="available">Disponible</option>
+                            <option value="low">Stock Bajo</option>
+                            <option value="out">Agotado</option>
+                        </select>
+                        <select class="filter-select" id="grainTypeFilter">
+                            <option value="">Todos los granos</option>
+                            <option value="Arábica">Arábica</option>
+                            <option value="Robusta">Robusta</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="products-grid" id="productsGrid">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Alertas -->
+            <div id="alerts" class="view">
+                <div class="view-header">
+                    <h1>Centro de Alertas</h1>
+                    <button class="btn btn--outline" id="configAlertsBtn">
+                        <i class="fas fa-cog"></i> Configurar Alertas
+                    </button>
+                </div>
+
+                <div class="filters-section">
+                    <div class="filters-row">
+                        <select class="filter-select" id="alertTypeFilter">
+                            <option value="">Todos los tipos</option>
+                            <option value="expiration">Caducidad</option>
+                            <option value="stock">Stock</option>
+                            <option value="system">Sistema</option>
+                        </select>
+                        <select class="filter-select" id="alertPriorityFilter">
+                            <option value="">Todas las prioridades</option>
+                            <option value="high">Alta</option>
+                            <option value="medium">Media</option>
+                            <option value="low">Baja</option>
+                        </select>
+                        <select class="filter-select" id="alertStatusFilter">
+                            <option value="">Todos los estados</option>
+                            <option value="active">Activa</option>
+                            <option value="resolved">Resuelta</option>
+                            <option value="pending">Pendiente</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="alerts-container" id="alertsContainer">
+                </div>
+            </div>
+
+            <!-- Reportes-->
+            <div id="reports" class="view">
+                <div class="view-header">
+                    <h1>Centro de Reportes</h1>
+                    <button class="btn btn--primary" id="scheduleReportBtn">
+                        <i class="fas fa-clock"></i> Programar Reporte
+                    </button>
+                </div>
+
+                <div class="reports-grid">
+                    <div class="report-generator">
+                        <div class="card">
+                            <div class="card__body">
+                                <h2>Generar Reporte</h2>
+                                <form class="report-form">
+                                    <div class="form-group">
+                                        <label class="form-label">Tipo de Reporte</label>
+                                        <select class="form-control" id="reportType">
+                                            <option value="inventory">Inventario Actual</option>
+                                            <option value="waste">Análisis de Mermas</option>
+                                            <option value="movements">Movimientos de Stock</option>
+                                            <option value="executive">Resumen Ejecutivo</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label class="form-label">Fecha Inicio</label>
+                                            <input type="date" class="form-control" id="reportStartDate">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Fecha Fin</label>
+                                            <input type="date" class="form-control" id="reportEndDate">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Formato</label>
+                                        <select class="form-control" id="reportFormat">
+                                            <option value="pdf">PDF</option>
+                                            <option value="csv">CSV</option>
+                                            <option value="excel">Excel</option>
+                                        </select>
+                                    </div>
+                                    <button type="button" class="btn btn--primary btn--full-width" id="generateReportBtn">
+                                        <i class="fas fa-file-alt"></i> Generar Reporte
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="report-preview">
+                        <div class="card">
+                            <div class="card__body">
+                                <h2>Vista Previa</h2>
+                                <div class="preview-area" id="reportPreview">
+                                    <div class="preview-placeholder">
+                                        <i class="fas fa-file-alt fa-3x"></i>
+                                        <p>Seleccione un tipo de reporte para ver la vista previa</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="scheduled-reports">
+                        <div class="card">
+                            <div class="card__body">
+                                <h2>Reportes Programados</h2>
+                                <div class="scheduled-list" id="scheduledReports">
+                                    <!-- Populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recent-reports">
+                        <div class="card">
+                            <div class="card__body">
+                                <h2>Reportes Recientes</h2>
+                                <div class="reports-history" id="reportsHistory">
+                                    <!-- Populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Usuarios -->
+            <div id="users" class="view">
+                <div class="view-header">
+                    <h1>Gestión de Usuarios</h1>
+                    <button class="btn btn--primary" id="addUserBtn">
+                        <i class="fas fa-user-plus"></i> Nuevo Usuario
+                    </button>
+                </div>
+
+                <div class="users-grid">
+                    <div class="users-list">
+                        <div class="card">
+                            <div class="card__body">
+                                <div class="filters-section">
+                                    <div class="filters-row">
+                                        <select class="filter-select" id="roleFilter">
+                                            <option value="">Todos los roles</option>
+                                            <option value="Administrador">Administrador</option>
+                                            <option value="Almacenista">Almacenista</option>
+                                            <option value="Barista">Barista</option>
+                                        </select>
+                                        <select class="filter-select" id="statusUserFilter">
+                                            <option value="">Todos los estados</option>
+                                            <option value="activo">Activo</option>
+                                            <option value="inactivo">Inactivo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="table-container">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Usuario</th>
+                                                <th>Email</th>
+                                                <th>Rol</th>
+                                                <th>Estado</th>
+                                                <th>Último Acceso</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="usersTable">
+                                            <!-- Populated by JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="user-details">
+                        <div class="card">
+                            <div class="card__body">
+                                <h2>Detalles del Usuario</h2>
+                                <div id="userDetails">
+                                    <div class="user-placeholder">
+                                        <i class="fas fa-user fa-3x"></i>
+                                        <p>Seleccione un usuario para ver los detalles</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="permissions-matrix">
+                        <div class="card">
+                            <div class="card__body">
+                                <h2>Matriz de Permisos</h2>
+                                <div class="permissions-grid" id="permissionsMatrix">
+                                    <!-- Populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="audit-trail">
+                        <div class="card">
+                            <div class="card__body">
+                                <h2>Registro de Actividad</h2>
+                                <div class="activity-list" id="auditTrail">
+                                    <div class="activity-item">
+                                        <div class="activity-icon">
+                                            <i class="fas fa-sign-in-alt"></i>
+                                        </div>
+                                        <div class="activity-info">
+                                            <p><strong>María González</strong> inició sesión</p>
+                                            <span class="activity-date">20/09/2025 14:30</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Log de Sesiones -->
+            <div id="logs" class="view">
+                <div class="view-header">
+                    <h1>Log de Sesiones</h1>
+                    <button class="btn btn--primary" id="exportLogBtn">
+                        <i class="fas fa-download"></i> Exportar CSV
+                    </button>
+                </div>
+
+                <div class="filters-section">
+                    <div class="filters-row">
+                        <select class="filter-select" id="logUserFilter">
+                            <option value="">Todos los usuarios</option>
+                        </select>
+                        <input type="date" class="filter-select" id="logStartDate" placeholder="Fecha inicio">
+                        <input type="date" class="filter-select" id="logEndDate" placeholder="Fecha fin">
+                        <button class="btn btn--outline" id="clearLogFilters">Limpiar Filtros</button>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Email</th>
+                                <th>Acción</th>
+                                <th>Fecha-Hora</th>
+                                <th>IP</th>
+                                <th>Navegador</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logsTable">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Manual de Usuario  -->
+            <div id="manual" class="view">
+                <div class="view-header">
+                    <h1>Manual de Usuario</h1>
+                </div>
+
+                <div class="manual-container">
+                    <div class="manual-sidebar">
+                        <div class="manual-search">
+                            <input type="text" placeholder="Buscar en el manual..." class="search-input" id="manualSearch">
+                        </div>
+                        <div class="manual-nav" id="manualNav">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div class="manual-content">
+                        <div id="manualContent">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Notificaciones Tostado -->
+        <div class="toast-container" id="toastContainer"></div>
+
+        <!-- Añadir/Editar Lote -->
+        <div class="modal hidden" id="lotModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle">Nuevo Lote</h2>
+                    <button class="modal-close" id="modalClose">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="lot-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Código de Lote</label>
+                                <input type="text" class="form-control" placeholder="LOT-2025-XXX" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Producto</label>
+                                <select class="form-control" required>
+                                    <option value="">Seleccionar producto</option>
+                                    <option value="Premium Chiapas">Premium Chiapas</option>
+                                    <option value="Orgánico Veracruz">Orgánico Veracruz</option>
+                                    <option value="Descafeinado">Descafeinado</option>
+                                    <option value="Espresso Blend">Espresso Blend</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Origen</label>
+                                <select class="form-control" required>
+                                    <option value="">Seleccionar origen</option>
+                                    <option value="Chiapas">Chiapas</option>
+                                    <option value="Veracruz">Veracruz</option>
+                                    <option value="México">México</option>
+                                    <option value="Oaxaca">Oaxaca</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Tipo de Tueste</label>
+                                <select class="form-control" required>
+                                    <option value="">Seleccionar tueste</option>
+                                    <option value="Claro">Claro</option>
+                                    <option value="Medio">Medio</option>
+                                    <option value="Oscuro">Oscuro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Peso Inicial (kg)</label>
+                                <input type="number" class="form-control" placeholder="50" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Fecha de Tueste</label>
+                                <input type="date" class="form-control" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn--outline" id="modalCancel">Cancelar</button>
+                    <button type="button" class="btn btn--primary" id="modalSave">Guardar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulario de Usuario -->
+        <div class="modal hidden" id="userModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="userModalTitle">Nuevo Usuario</h2>
+                    <button class="modal-close" id="userModalClose">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="user-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Nombre Completo</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Rol</label>
+                                <select class="form-control" required>
+                                    <option value="">Seleccionar rol</option>
+                                    <option value="Administrador">Administrador</option>
+                                    <option value="Almacenista">Almacenista</option>
+                                    <option value="Barista">Barista</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Estado</label>
+                                <select class="form-control" required>
+                                    <option value="activo">Activo</option>
+                                    <option value="inactivo">Inactivo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn--outline" id="userModalCancel">Cancelar</button>
+                    <button type="button" class="btn btn--primary" id="userModalSave">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
